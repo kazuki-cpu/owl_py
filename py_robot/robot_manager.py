@@ -1,12 +1,13 @@
 import rclpy 
 from rclpy.node import Node
+
 from std_msgs.msg import Int16 
 from std_msgs.msg import Bool
 
-class RobotManager (Node):
+class RobotManager(Node):
 	def __init__(self):
-		super(). __init__('robot_manager') 
-		self.publisher_ = self.create_publisher (Int16, 'pwm_topic' 10) 
+		super().__init__('robot_manager') 
+		self.publisher_ = self.create_publisher(Int16, 'pwm_topic' 10) 
 		self.subscription = self.create_subscription(
 			Bool, 
 			'status_topic', 
@@ -17,7 +18,7 @@ class RobotManager (Node):
 	def timer_callback(self, status_msg):
 		pwm_msg = Int16() 
 		pwm_msg.data = self.i 
-		self.publisher_.publish (pwm_msg) 
+		self.publisher_.publish(pwm_msg) 
 		self.get_logger().info('Publishing, "%d"' % pwm_msg.data) 
 		if status_msg.data == True: 
 			if self.i ==2500:
@@ -27,12 +28,15 @@ class RobotManager (Node):
 		else:
 			self.i = self.i
 			
-		self.get_logger ().info('Subscribed, "%s"' % status_msg.data)
+		self.get_logger().info('Subscribed, "%s"' % status_msg.data)
 		
+
 def main(args=None): 
 	try:
 		rclpy.init(args=args)
-		robot_manag
+
+		robot_manager = RobotManager()
+
 		rclpy.spin(robot_manager) 
 	except KeyboardInterrupt:
 		pass 
